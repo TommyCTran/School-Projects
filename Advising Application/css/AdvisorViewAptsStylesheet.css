@@ -1,0 +1,47 @@
+.form-title
+{
+	float: left;
+	font-size: 30px;
+	margin-top: 1%;
+	margin-left: 45%;
+	
+	
+}
+.form-div
+{
+	float: left;
+	margin-left: 40%;
+	margin-top: 2.5%;
+	width: 50%;
+}
+
+.block
+{
+
+	margin-left: 5%;
+}
+
+.space
+{
+
+	margin-bottom: 1%;	
+	margin-left: 2.5%;
+	
+}
+
+.button
+{
+	margin-left: 10%;
+}
+.buttons
+{
+	float: left;
+	margin-left: 15%;
+
+}
+
+.goBack
+{
+margin-top: 20%;
+margin-left: 20%;
+}

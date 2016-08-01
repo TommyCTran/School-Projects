@@ -1,0 +1,115 @@
+.form-title
+{
+	float: left;
+	font-size: 30px;
+	margin-top: 1.5%;
+	margin-bottom: 2.5%;
+	margin-left: 40%;
+	
+}
+
+.space
+{
+
+	margin-bottom: 1%;	
+	margin-left: 2.5%;
+	
+}
+
+
+
+.DOW-form-div
+{
+
+	width: 40%;
+	height: 30%;
+	margin-left: 30%;
+	
+	overflow-y: scroll;
+	background-color: #F0F0F0;
+	box-shadow: 0px 0px 50px 4px #F0F0F0;
+	margin-bottom: 5%;
+
+}
+
+.monday
+{
+	background-color: #E8E8E8 ;
+	box-shadow: 0px -10px 50px 4px #E8E8E8; 
+	font-size: 25px;
+	margin-top: 10.75%;
+	margin-left: 30%;
+	position: absolute;
+}
+
+.tuesday
+{
+	background-color: #E8E8E8 ;
+	box-shadow: 0px -10px 50px 4px #E8E8E8; 
+	font-size: 25px;
+	margin-top: -1.5%;
+	margin-left: 30%;
+	position: absolute;
+}
+
+.wednesday
+{
+	background-color: #E8E8E8 ;
+	box-shadow: 0px -10px 50px 4px #E8E8E8; 
+	font-size: 25px;
+	margin-top: -1.5%;
+	margin-left: 30%;
+	position: absolute;
+}
+
+.thursday
+{
+	background-color: #E8E8E8 ;
+	box-shadow: 0px -10px 50px 4px #E8E8E8; 
+	font-size: 25px;
+	margin-top: -1.5%;
+	margin-left: 30%;
+	position: absolute;
+}
+
+.friday
+{
+	background-color: #E8E8E8 ;
+	box-shadow: 0px -10px 50px 4px #E8E8E8; 
+	font-size: 25px;
+	margin-top: -1.6%;
+	margin-left: 30%;
+	position: absolute;
+}
+
+
+.buttons
+{
+	float: left;
+	margin-top: -5%;
+	margin-left: 45%; 
+}
+
+.goBack
+{
+	margin-top: 27%; 
+	margin-left: 20%;
+}
+
+.background
+{
+	position: absolute;
+	right: 0px;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	float: left;
+	background-color: #FFFFF0;
+}
+
+.help
+{
+	margin-top: 27%; 
+	margin-left: 20%;
+}
+

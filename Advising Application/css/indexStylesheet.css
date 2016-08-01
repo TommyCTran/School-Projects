@@ -1,0 +1,31 @@
+/* Sets mascot to be of a certain size */
+.mascot 
+{
+	margin-top: -2.25%;
+	margin-right: -5.5%;
+	padding-left: 2.5%;
+	padding-bottom: 2.5%;
+	width: 50%;
+}
+
+/* Intro info */
+.intro 
+{
+	width: 45%;
+	float: left;
+	padding-top: 1%;
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+	margin-left: 25%;
+}
+
+/* Description */
+.description
+{
+	font-size: 30px;
+}
+
+.buttons
+{
+	margin-left: 35%; 
+}

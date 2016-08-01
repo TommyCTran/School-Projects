@@ -1,0 +1,116 @@
+/* Removes all margin and sets font family */
+body 
+{
+	margin: 0;
+	color: #000000;
+	font-size: 15px;
+	background-color: #FFFFFF;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.form-title
+{
+	float: left;
+	font-size: 30px;
+	margin-left: 40%;
+	margin-top: 2.5%;
+	margin-bottom: 1%;
+
+}
+
+
+/* Sets logo to be of a certain size */
+.logo 
+{
+	margin-left: 10%;
+	height: 100%;
+}
+
+.intro
+{
+	font-size: 20px;
+}
+/* More info */
+.content
+{	
+	width: 45%;
+	float: left;
+	margin-top: 1%;
+	margin-left:27.5%;
+	font-size: 20px;
+}
+
+.form-div
+{
+	float: left;
+	margin-left: 25%;
+	margin-top: 2.5%;
+	width: 50%;
+}
+
+.form
+{
+	float: left;
+	margin-left: 25%;
+	margin-top: 2.5%;
+	width: 50%;
+	border-style: solid;
+}
+
+p
+{
+	width: 50%;
+	margin-left: 25%;
+	float: left;
+	
+}
+
+.visible  { 
+visibility: hidden; 
+}
+
+/* Container div setting into background */
+
+.background
+{
+	position: absolute;
+	right: 0px;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	float: left;
+	background-color: #FFFFF0;
+}
+
+/* Sub part of header */
+.one-third-header
+{
+	width: 25%;
+	height: 12.5%;
+	float: left;
+	border-bottom: solid;
+	background-color: #000000;
+}
+
+/* Main part of header */
+.two-third-header
+{
+	width: 50%;
+	height: 12.5%;
+	float: left;
+	border-bottom: solid;
+	background-color: #000000;
+	
+}
+
+/* Sub part of header */
+.three-third-header
+{
+	width: 25%;
+	height: 12.5%;
+	float: left;
+	border-bottom: solid;
+	background-color: #000000;
+}
+
+
