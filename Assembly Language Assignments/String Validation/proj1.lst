@@ -1,0 +1,154 @@
+     1                                  %define STDIN 0
+     2                                  %define STDOUT 1
+     3                                  %define SYSCALL_EXIT  1
+     4                                  %define SYSCALL_READ  3
+     5                                  %define SYSCALL_WRITE 4
+     6                                  %define BUFLEN 256
+     7                                  
+     8                                  
+     9                                          SECTION .data                   ; initialized data section
+    10                                  
+    11 00000000 456E7465722031322D-     msg1:   db "Enter 12-digit UPC: "             	; user prompt
+    12 00000009 646967697420555043-
+    13 00000012 3A20               
+    14                                  len1:   equ $-msg1                      	; length of first message
+    15                                  
+    16 00000014 546869732069732061-     msg2:   db "This is a valid UPC number. "      ; original string label
+    17 0000001D 2076616C6964205550-
+    18 00000026 43206E756D6265722E-
+    19 0000002F 20                 
+    20                                  len2:   equ $-msg2                      	; length of second message
+    21                                  
+    22 00000030 54686973206973204E-     msg3:   db "This is NOT a valid UPC number. "	; converted string label
+    23 00000039 4F5420612076616C69-
+    24 00000042 6420555043206E756D-
+    25 0000004B 6265722E20         
+    26                                  len3:   equ $-msg3
+    27                                  
+    28                                  
+    29 00000050 000000000300000006-     arr:	dd 0, 3, 6, 9, 2, 5, 8, 1, 4, 7 ;
+    30 00000059 000000090000000200-
+    31 00000062 000005000000080000-
+    32 0000006B 000100000004000000-
+    33 00000074 07000000           
+    34                                  
+    35                                  
+    36                                  	SECTION .bss                    ; uninitialized data section
+    37                                  
+    38 00000000 <res 00000100>          rbuf:   resb BUFLEN			; buffer for read
+    39 00000100 <res 00000100>          dbuf:	resb BUFLEN			; destination buffer
+    40 00000200 <res 00000004>          rlen:   resb 4                          ; length
+    41                                  
+    42                                          SECTION .text                   ; Code section.
+    43                                          global  _start                  ; let loader see entry point
+    44                                  
+    45 00000000 90                      _start: nop                             ; Entry point.
+    46                                  start:                                  ; address for gdb
+    47                                  
+    48                                          ; prompt user for input
+    49                                          ;
+    50 00000001 B804000000                      mov     eax, SYSCALL_WRITE      ; write function
+    51 00000006 BB01000000                      mov     ebx, STDOUT             ; Arg1: file descriptor
+    52 0000000B B9[00000000]                    mov     ecx, msg1               ; Arg2: addr of message
+    53 00000010 BA14000000                      mov     edx, len1               ; lsArg3: length of message
+    54 00000015 CD80                            int     080h                    ; ask kernel to write
+    55                                  
+    56                                          ; read user input
+    57                                          ;
+    58 00000017 B803000000                      mov     eax, SYSCALL_READ       ; read function
+    59 0000001C BB00000000                      mov     ebx, STDIN              ; Arg 1: file descriptor
+    60 00000021 B9[00000000]                    mov     ecx, rbuf               ; Arg 2: address of buffer
+    61 00000026 BA00010000                      mov     edx, BUFLEN             ; Arg 3: buffer length
+    62 0000002B CD80                            int     080h
+    63                                  
+    64                                          ; error check
+    65                                          ;
+    66 0000002D 3D00000000                      cmp     eax, 0                  ; check if any chars read
+    67 00000032 7F00                            jg      read_OK                 ; >0 chars read = OK
+    68                                  
+    69                                  
+    70                                  read_OK:
+    71                                  	; begin checking the input
+    72 00000034 90                      	nop	
+    73 00000035 31C0                    	xor	eax, eax	; Check Digit
+    74 00000037 31DB                    	xor	ebx, ebx	; Index
+    75 00000039 31C9                    	xor	ecx, ecx	; And Value
+    76 0000003B 31D2                    	xor	edx, edx	; Buffer Value
+    77 0000003D 31F6                    	xor	esi, esi	; Look up Value
+    78 0000003F 31FF                    	xor	edi, edi	; New Value
+    79                                  		
+    80                                  loop:
+    81 00000041 90                      	nop
+    82 00000042 81FB0B000000            	cmp	ebx, 11
+    83 00000048 7D57                    	jge	end
+    84 0000004A 89D9                    	mov	ecx, ebx
+    85 0000004C 81E101000000            	and 	ecx, 1
+    86 00000052 81F901000000            	cmp	ecx, 1
+    87 00000058 7505                    	jne	even
+    88 0000005A E91B000000              	jmp	odd
+    89                                  
+    90                                  even:
+    91 0000005F 90                      	nop
+    92 00000060 8B93[00000000]          	mov	edx, [rbuf + ebx]
+    93 00000066 81E20F000000            	and	edx, 0x0F		; Convert to Binary
+    94 0000006C 8B3C95[50000000]        	mov	edi, [edx * 4 + arr]
+    95 00000073 01F8                    	add	eax, edi
+    96 00000075 E914000000              	jmp	check
+    97                                  
+    98                                  odd:
+    99 0000007A 90                      	nop
+   100 0000007B 8B93[00000000]          	mov	edx, [rbuf + ebx]
+   101 00000081 81E20F000000            	and	edx, 0x0F		; Convert to Binary
+   102 00000087 01D0                    	add	eax, edx
+   103 00000089 E900000000              	jmp	check
+   104                                  	
+   105                                  check:
+   106 0000008E 90                      	nop
+   107 0000008F 43                      	inc	ebx
+   108 00000090 3D0A000000              	cmp	eax, 10
+   109 00000095 7CAA                    	jl	loop
+   110 00000097 2D0A000000              	sub	eax, 10
+   111 0000009C E9A0FFFFFF              	jmp	loop
+   112                                  
+   113                                  end:
+   114 000000A1 90                      	nop
+   115 000000A2 3D00000000              	cmp 	eax, 0
+   116 000000A7 7E09                    	jle	done
+   117 000000A9 BF0A000000              	mov	edi, 10
+   118 000000AE 29C7                    	sub	edi, eax
+   119 000000B0 89F8                    	mov	eax, edi
+   120                                  	
+   121                                  done:
+   122 000000B2 90                      	nop
+   123 000000B3 8B15[0B000000]          	mov	edx, [rbuf + 11]
+   124 000000B9 81E20F000000            	and	edx, 0x0F
+   125 000000BF 39D0                    	cmp	eax, edx
+   126 000000C1 751B                    	jne	error
+   127                                  
+   128                                          ; print out user input for feedback
+   129                                          ;
+   130                                  
+   131                                   	; print out converted string
+   132                                          ;
+   133 000000C3 B804000000                      mov     eax, SYSCALL_WRITE      ; write message
+   134 000000C8 BB01000000                      mov     ebx, STDOUT
+   135 000000CD B9[14000000]                    mov     ecx, msg2
+   136 000000D2 BA1C000000                      mov     edx, len2
+   137 000000D7 CD80                            int     080h
+   138 000000D9 E917000000              	jmp 	exit
+   139                                          
+   140                                  	; final exit
+   141                                          ;
+   142                                  error:
+   143 000000DE 90                      	nop
+   144 000000DF B804000000                      mov     eax, SYSCALL_WRITE      ; write out string
+   145 000000E4 BB01000000                      mov     ebx, STDOUT
+   146 000000E9 B9[30000000]                    mov     ecx, msg3
+   147 000000EE BA20000000                      mov     edx, len3
+   148 000000F3 CD80                            int     080h
+   149                                  
+   150                                  exit:   
+   151 000000F5 90                      	nop	
+   152 000000F6 B801000000              	mov     eax, SYSCALL_EXIT       ; exit function
+   153 000000FB BB00000000                      mov     ebx, 0                  ; exit code, 0=normal
+   154 00000100 CD80                            int     080h                    ; ask kernel to take over 
